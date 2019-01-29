@@ -1,0 +1,5 @@
+[global]
+template_dir = "templates/"
+
+[global.databases]
+pg = { url = "postgres://app:secret@localhost/hello_rocket" }

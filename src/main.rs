@@ -1,35 +1,24 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 #[macro_use]
+extern crate diesel;
+#[macro_use]
+extern crate maud;
+#[macro_use]
 extern crate rocket;
+#[macro_use]
+extern crate rocket_contrib;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 
-use std::path::{ Path, PathBuf };
-use rocket::response::NamedFile;
-
-#[get("/res/<file..>")]
-fn resources(file: PathBuf) -> Option<NamedFile> {
-    NamedFile::open(Path::new("resources/").join(file)).ok()
-}
-
-#[get("/")]
-fn index() -> String {
-    String::from("Hello, World!")
-}
-
-#[get("/hello/<name>/<age>/<cool>")]
-fn hello(name: String, age: u8, cool: bool) -> String {
-    if cool {
-        format!("You're a cool {} year old, {}!", age, name)
-    } else {
-        format!("{}, we need to talk about your coolness.", name)
-    }
-}
+mod schema;
+mod db;
+mod controllers;
+mod models;
 
 fn main() {
     rocket::ignite()
-        .mount("/", routes![
-               resources,
-               index,
-               hello
-        ])
+        .mount("/", controllers::get_routes())
+        .attach(db::DbConnection::fairing())
         .launch();
 }

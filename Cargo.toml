@@ -1,8 +1,17 @@
 [package]
 name = "hello-rocket"
 version = "0.0.0"
-authors = ["Noah Rosenzweig <noah@aware.vision>"]
+authors = ["Noah Rosenzweig <rosenzweig.noah@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+diesel = { version = "1.4", features = ["postgres"] }
+maud = "0.20"
 rocket = "0.4.0"
+serde = "1.0"
+serde_derive = "1.0"
+
+[dependencies.rocket_contrib]
+version = "0.4.0"
+default-features = false
+features = ["diesel_postgres_pool", "handlebars_templates"]
