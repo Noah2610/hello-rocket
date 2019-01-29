@@ -1,0 +1,8 @@
+[package]
+name = "hello-rocket"
+version = "0.0.0"
+authors = ["Noah Rosenzweig <noah@aware.vision>"]
+edition = "2018"
+
+[dependencies]
+rocket = "0.4.0"
