@@ -18,15 +18,25 @@ mod models;
 mod fairings;
 
 use rocket::Rocket;
+use rocket::fairing::AdHoc;
+
+pub struct ResourcesDir(String);
 
 fn main() {
     rocket()
-        .attach(db::DbConnection::fairing())
-        .attach(fairings::Counter::new())
         .launch();
 }
 
 fn rocket() -> Rocket {
     rocket::ignite()
         .mount("/", controllers::get_routes())
+        .attach(db::DbConnection::fairing())
+        .attach(fairings::Counter::new())
+        .attach(AdHoc::on_attach("Resources Config", |rocket| {
+            let res_dir = rocket.config()
+                .get_str("resources_dir")
+                .unwrap_or("resources/")
+                .to_string();
+            Ok(rocket.manage(ResourcesDir(res_dir)))
+        }))
 }

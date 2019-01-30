@@ -1,5 +1,12 @@
 [global]
-template_dir = "templates/"
+resources_dir = "resources/"
+template_dir  = "templates/"
 
 [global.databases]
 pg = { url = "postgres://app:secret@localhost/hello_rocket" }
+
+[development]
+address    = "0.0.0.0"
+port       = 8000
+log        = "normal"
+secret_key = "YckUhJ/89qfkEEt6ArVkftq0fGaOJrDVYO6I77u9v3Y="

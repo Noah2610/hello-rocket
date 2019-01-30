@@ -3,6 +3,7 @@ pub mod prelude {
     pub use rocket::request::Form;
     pub use rocket::response::{ Redirect, content };
     pub use rocket::Route;
+    pub use rocket::State;
     pub use rocket_contrib::databases::diesel::prelude::*;
     pub use rocket_contrib::databases::diesel::PgConnection;
     pub use maud::{ DOCTYPE, Markup, PreEscaped };
@@ -18,6 +19,7 @@ use std::path::{ Path, PathBuf };
 use rocket::response::NamedFile;
 
 use self::prelude::*;
+use super::ResourcesDir;
 
 pub fn get_routes() -> Vec<Route> {
     routes![
@@ -31,8 +33,8 @@ pub fn get_routes() -> Vec<Route> {
 }
 
 #[get("/res/<file..>")]
-pub fn resource(file: PathBuf) -> Option<NamedFile> {
-    NamedFile::open(Path::new("resources/").join(file)).ok()
+pub fn resource(file: PathBuf, res_dir: State<ResourcesDir>) -> Option<NamedFile> {
+    NamedFile::open(Path::new(&res_dir.0).join(file)).ok()
 }
 
 #[get("/")]

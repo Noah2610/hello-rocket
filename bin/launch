@@ -1,4 +1,4 @@
 #!/bin/bash
 export RUSTUP_TOOLCHAIN="nightly"
 #export ROCKET_CLI_COLORS=1
-cargo watch -x run
+cargo watch -x test -x run
