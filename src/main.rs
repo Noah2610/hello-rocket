@@ -17,10 +17,16 @@ mod controllers;
 mod models;
 mod fairings;
 
+use rocket::Rocket;
+
 fn main() {
-    rocket::ignite()
-        .mount("/", controllers::get_routes())
+    rocket()
         .attach(db::DbConnection::fairing())
         .attach(fairings::Counter::new())
         .launch();
+}
+
+fn rocket() -> Rocket {
+    rocket::ignite()
+        .mount("/", controllers::get_routes())
 }

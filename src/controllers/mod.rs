@@ -23,6 +23,7 @@ pub fn get_routes() -> Vec<Route> {
     routes![
         resource,
         index,
+        hello,
         posts::index,
         posts::new,
         posts::create,
@@ -43,3 +44,11 @@ pub fn index() -> content::Html<String> {
         (footer());
     }).into_string())
 }
+
+#[get("/hello")]
+pub fn hello() -> String {
+    String::from("Hello Rocket!")
+}
+
+#[cfg(test)]
+mod tests;
