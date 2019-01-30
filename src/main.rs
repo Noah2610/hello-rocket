@@ -15,10 +15,12 @@ mod schema;
 mod db;
 mod controllers;
 mod models;
+mod fairings;
 
 fn main() {
     rocket::ignite()
         .mount("/", controllers::get_routes())
         .attach(db::DbConnection::fairing())
+        .attach(fairings::Counter::new())
         .launch();
 }
